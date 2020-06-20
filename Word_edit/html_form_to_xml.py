@@ -151,7 +151,7 @@ def parsegen(rq):
     reqsheet['anteil'] = rq.get('Anteil', '$5')
     reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated')
-    reqsheet['word_addr'] = rq.get('wordAddr', '$7')
+    reqsheet['wordAddr'] = rq.get('wordAddr', '$7')
     if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'
