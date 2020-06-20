@@ -11,9 +11,9 @@ def create_response(request):
     rq = request.POST
     if rq:
         if rq.get('category',  '$0') == 'Substantiv': # ToDo: support modifying other categories
-            reqsheet, err = parsegen(rq)
+            reqsheet, err, err_str = parsegen(rq)
             if err != 0:
-                return HttpResponseBadRequest("error")
+                return HttpResponseBadRequest(err_str)
             savedit(reqsheet)
         return HttpResponse('All right,click<a href="http://'+request.get_host()+request.get_full_path()+'">create another</a>')
     else:

@@ -153,13 +153,15 @@ def parsegen(rq):
     word_addr=rq.get('wordAddr', '$7')
     if wordform == '$0':
         err = 1
+        err_str = 'empty wordform'
         reqsheet = []
-        return (reqsheet, err)
+        return (reqsheet, err, err_str)
     explanation_list = parseexp(rq)
     if len(explanation_list) == 0:
         err = 2
+        err_str = 'empty explanation'
         reqsheet = []
-        return (reqsheet, err)
+        return (reqsheet, err, err_str)
     reqsheet = [wordform,genus,plural,genitiv,unittype,anteil,username,explanation_list,parsesym(rq),parseanm(rq),parsecom(rq),parsedrv(rq),parsecol(rq),word_addr,is_created]
     return (reqsheet, err)
 
