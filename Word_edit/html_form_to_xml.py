@@ -52,21 +52,21 @@ def geturl(word):
 def savedit(entry):
     #t=datetime.now()
     #s=t.strftime("%Y%m%d%H%M%S")
-    wordform=entry[0]
-    genus=entry[1]
-    plural=entry[2]
-    genitiv=entry[3]
-    unittype=entry[4]
-    anteil=entry[5]
-    username=entry[6]
-    explist=entry[7]
-    symlist=entry[8]
-    anmlist=entry[9]
-    comlist=entry[10]
-    drvlist=entry[11]
-    collist=entry[12]
-    wordAddr=entry[13]
-    is_created=entry[14]
+    wordform = entry['wordform']
+    genus = entry['genus']
+    plural = entry['plural']
+    genitiv = entry['genitiv']
+    unittype = entry['unittype']
+    anteil = entry['anteil']
+    username = entry['username']
+    explist = entry['explist']
+    symlist = entry['symlist']
+    anmlist = entry['anmlist']
+    comlist = entry['comlist']
+    drvlist = entry['drvlist']
+    collist = entry['collist']
+    wordAddr = entry['wordAddr']
+    is_created=entry['is_created']
     if(is_created and explist and explist[0]):
         addWord(wordform,genus,explist[0][0],True)
     #filename=wordform+"_"+username+"_"+s+".xml"
@@ -142,27 +142,30 @@ def savedit(entry):
 
 def parsegen(rq):
     err = 0
-    wordform = rq.get('Stichwort',  '$0')
-    genus = rq.get('Genus', '$1')
-    plural = rq.get('Pluralform', '$2')
-    genitiv= rq.get('GenitivSingular', '$3')
-    unittype=rq.get('unittype', '$4')
-    anteil=rq.get('Anteil', '$5')
-    username=rq.get('UserName', '$6')
-    is_created=rq.get('isCreated')
-    word_addr=rq.get('wordAddr', '$7')
-    if wordform == '$0':
+    reqsheet = {}
+    reqsheet['wordform'] = rq.get('Stichwort',  None)
+    reqsheet['genus'] = rq.get('Genus', '$1')
+    reqsheet['plural'] = rq.get('Pluralform', '$2')
+    reqsheet['genitiv'] = rq.get('GenitivSingular', '$3')
+    reqsheet['unittype'] = rq.get('unittype', '$4')
+    reqsheet['anteil'] = rq.get('Anteil', '$5')
+    reqsheet['username'] = rq.get('UserName', '$6')
+    reqsheet['is_created'] = rq.get('isCreated')
+    reqsheet['word_addr'] = rq.get('wordAddr', '$7')
+    if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'
-        reqsheet = []
         return (reqsheet, err, err_str)
-    explanation_list = parseexp(rq)
-    if len(explanation_list) == 0:
+    reqsheet['explist'] = parseexp(rq)
+    if len(reqsheet['explist']) == 0:
         err = 2
         err_str = 'empty explanation'
-        reqsheet = []
         return (reqsheet, err, err_str)
-    reqsheet = [wordform,genus,plural,genitiv,unittype,anteil,username,explanation_list,parsesym(rq),parseanm(rq),parsecom(rq),parsedrv(rq),parsecol(rq),word_addr,is_created]
+    reqsheet['symlist'] = parsesym(rq)
+    reqsheet['anmlist'] = parseanm(rq)
+    reqsheet['comlist'] = parsecom(rq)
+    reqsheet['drvlist'] = parsedrv(rq)
+    reqsheet['collist'] = parsecol(rq)
     return (reqsheet, err)
 
 def parseexp(rq):
