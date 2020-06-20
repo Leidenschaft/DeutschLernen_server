@@ -161,12 +161,13 @@ def parsegen(rq):
         err = 2
         err_str = 'empty explanation'
         return (reqsheet, err, err_str)
+
     reqsheet['symlist'] = parsesym(rq)
     reqsheet['anmlist'] = parseanm(rq)
     reqsheet['comlist'] = parsecom(rq)
     reqsheet['drvlist'] = parsedrv(rq)
     reqsheet['collist'] = parsecol(rq)
-    return (reqsheet, err)
+    return (reqsheet, err, '')
 
 def parseexp(rq):
     explist=list([])
