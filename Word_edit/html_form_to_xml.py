@@ -163,7 +163,7 @@ def parsegen(rq):
         reqsheet = []
         return (reqsheet, err, err_str)
     reqsheet = [wordform,genus,plural,genitiv,unittype,anteil,username,explanation_list,parsesym(rq),parseanm(rq),parsecom(rq),parsedrv(rq),parsecol(rq),word_addr,is_created]
-    return (reqsheet, err)
+    return (reqsheet, err, '')
 
 def parseexp(rq):
     explist=list([])
