@@ -154,8 +154,13 @@ def parsegen(rq):
     if wordform == '$0':
         err = 1
         reqsheet = []
-    else:
-        reqsheet = [wordform,genus,plural,genitiv,unittype,anteil,username,parseexp(rq),parsesym(rq),parseanm(rq),parsecom(rq),parsedrv(rq),parsecol(rq),word_addr,is_created]
+        return (reqsheet, err)
+    explanation_list = parseexp(rq)
+    if len(explanation_list) == 0:
+        err = 2
+        reqsheet = []
+        return (reqsheet, err)
+    reqsheet = [wordform,genus,plural,genitiv,unittype,anteil,username,explanation_list,parsesym(rq),parseanm(rq),parsecom(rq),parsedrv(rq),parsecol(rq),word_addr,is_created]
     return (reqsheet, err)
 
 def parseexp(rq):

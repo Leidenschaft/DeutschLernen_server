@@ -24,4 +24,7 @@ class WordEditTest(TestCase):
         data = {'category': 'Substantiv'}
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 400)
-
+    def test_post_empty_explanation(self):
+        data = {'category': 'Substantiv', 'Stichwort': 'Abschlussarbeit'}
+        response = self.client.post('/Word_edit/create_new_word', data)
+        self.assertEqual(response.status_code, 400)
