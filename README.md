@@ -14,7 +14,17 @@ The frontend code is organized as submodule. Use `git submodule --init update` t
 * create `pictures` directory and copy all picture files in `example` to  `pictures` directory
 * run `python3 manage.py runserver`
 
-## Aim
-We aim to develop an user-oriented German learning software, whose features include but not limit to dictionary and translator, for students in China who learn German as a second foreign language in university.
-Wir wollen eine Software, die als ein Wörterbuch oder ein Übersetzer funktionieren kann, für die Chinisischen Studentinen und Studenten um ihren Universitätlernen zu helfen machen.       
-この項目の目標は、大学生にドイツ語の勉強を手伝するソフトウェアを作る。
+## API
+### Create or Update a word
+url endpoint: `/Word_edit/create_new_word`
+
+method: POST
+
+data: using html form, ie `Stichwort=Absclussarbeit&explanation_1=thesis`.
+
+Required field: `Stichwort` and `explanation_1`;
+
+Suggested field: `category`, i.e. part of speech like **Substantiv**.
+For the complete list of `category`, see `frontend/Wort/AdjModel.dtd`.
+
+Returned: HTTP Code and HTTP string. If the code is 200, the corresponding xml is created or updated; otherwise there is some failure. The error message can be checked from the returned string.

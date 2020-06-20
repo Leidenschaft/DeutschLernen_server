@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from .html_form_to_xml import parsegen, savedit, addWord
 from django.template import loader
 
@@ -11,7 +11,9 @@ def create_response(request):
     rq = request.POST
     if rq:
         if rq.get('category',  '$0') == 'Substantiv': # ToDo: support modifying other categories
-            reqsheet = parsegen(rq)
+            reqsheet, err = parsegen(rq)
+            if err != 0:
+                return HttpResponseBadRequest("error")
             savedit(reqsheet)
         return HttpResponse('All right,click<a href="http://'+request.get_host()+request.get_full_path()+'">create another</a>')
     else:
