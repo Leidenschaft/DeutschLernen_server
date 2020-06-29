@@ -20,6 +20,7 @@ class WordEditTest(TestCase):
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/2.xml'))
+
     def test_post_empty_stichwort(self):
         data = {'category': 'Substantiv'}
         response = self.client.post('/Word_edit/create_new_word', data)

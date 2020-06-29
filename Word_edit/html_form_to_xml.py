@@ -7,21 +7,22 @@ import code
 from DeutschLernen import settings
 import re
 
-def addWord(word,gender,chinese,isAdded=False):
+def addWord(word, gender, chinese, isAdded=False):
     """
     add a new word to Wordlist_11.xml if isAdded is true,
     otherwise return the length of current category.
     """
     path = settings.STATICFILES_DIRS[0]
     f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'r', encoding='utf-8')
-    xml=f.read()
+    xml = f.read()
     xml[len(xml)-len('</Wordlist>'):len(xml)]
     f.close()
-    soup=BeautifulSoup(xml,"lxml")
-    currentNounLen=len(soup.find_all("word",gender=re.compile(".*")))
-    if(isAdded):
-        append_str='<Word address="'+str(currentNounLen+1)+'.xml" gender="'+gender+'" chinese="'+chinese+'">'+word+'</Word>'
-        xml=xml[0:(len(xml)-11)]+append_str+'</Wordlist>'
+    soup = BeautifulSoup(xml, "lxml")
+    currentNounLen = len(soup.find_all("word",gender=re.compile(".*")))
+    if isAdded:
+        append_str = '<Word address="' + str(currentNounLen+1) +\
+            '.xml" gender="' + gender + '" chinese="' + chinese + '">'+word+'</Word>'
+        xml = xml[0:(len(xml)-11)] + append_str + '</Wordlist>'
         f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'w', encoding='utf-8')
         f.write(xml)
         f.close()
@@ -74,14 +75,19 @@ def savedit(entry):
     #indexfile.write(filename+",")
     #indexfile.close()
     s='''<Entry category="Substantiv">\n'''
-    s=s+'''<Stichwort>'''+wordform+'''</Stichwort>\n'''
-    s=s+'''<Einheit>'''+unittype+'''</Einheit>\n'''
-    s=s+'''<Anteil>'''+anteil+'''</Anteil>\n'''
-    s=s+'''<Genus>'''+genus+'''</Genus>\n'''
-    s=s+'''<Pluralform>'''+plural+'''</Pluralform>\n'''
-    s=s+'''<GenitivSingular>'''+genitiv+'''</GenitivSingular>\n'''
-    s=s+'''<zusammengesetzteWörter>\n'''
-    s=s+'''<KompositaCollection>\n'''
+    s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
+    if unittype is not None:
+        s = s + '''<Einheit>''' + unittype + '''</Einheit>\n'''
+    if anteil is not None:
+        s = s + '''<Anteil>''' + anteil + '''</Anteil>\n'''
+    if genus is not None:
+        s = s + '''<Genus>''' + genus + '''</Genus>\n'''
+    if plural is not None:
+        s = s + '''<Pluralform>''' + plural + '''</Pluralform>\n'''
+    if genitiv is not None:
+        s = s + '''<GenitivSingular>''' + genitiv + '''</GenitivSingular>\n'''
+    s = s + '''<zusammengesetzteWörter>\n'''
+    s = s + '''<KompositaCollection>\n'''
     for com in comlist:
         if (com[1]==""):
             s=s+'''<K_>'''+com[0]+'''</K_>\n'''
@@ -144,11 +150,11 @@ def parsegen(rq):
     err = 0
     reqsheet = {}
     reqsheet['wordform'] = rq.get('Stichwort',  None)
-    reqsheet['genus'] = rq.get('Genus', '$1')
-    reqsheet['plural'] = rq.get('Pluralform', '$2')
-    reqsheet['genitiv'] = rq.get('GenitivSingular', '$3')
-    reqsheet['unittype'] = rq.get('unittype', '$4')
-    reqsheet['anteil'] = rq.get('Anteil', '$5')
+    reqsheet['genus'] = rq.get('Genus', None)
+    reqsheet['plural'] = rq.get('Pluralform', None)
+    reqsheet['genitiv'] = rq.get('GenitivSingular', None)
+    reqsheet['unittype'] = rq.get('unittype', None)
+    reqsheet['anteil'] = rq.get('Anteil', None)
     reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated')
     reqsheet['wordAddr'] = rq.get('wordAddr', '$7')
