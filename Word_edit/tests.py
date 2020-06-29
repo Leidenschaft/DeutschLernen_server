@@ -56,11 +56,23 @@ class WordEditTest(TestCase):
         self.assertTrue(os.path.exists('frontend/Wort/V233.xml'))
         os.remove('frontend/Wort/V233.xml')
 
+    def test_post_form_adj(self):
+        data = {'Stichwort' : 'gesund',
+                        'category' : 'Adjektiv',
+                        'isCreated' : '',
+                        'wordAddr' :  '/Wort/A233.xml',
+                        'explanation_1': 'have'
+                }
+        response = self.client.post('/Word_edit/create_new_word', data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(os.path.exists('frontend/Wort/A233.xml'))
+        os.remove('frontend/Wort/A233.xml')
+
 class UtilityTest(TestCase):
     def test_function_addWord(self):
         noun_len = html_form_to_xml.addWord('', '', '', word_type='Substantiv')
-        self.assertEqual(noun_len, 1)
+        self.assertEqual(noun_len, '2')
         verb_len = html_form_to_xml.addWord('', '', '', word_type='Verben')
-        self.assertEqual(verb_len, 1)
+        self.assertEqual(verb_len, 'V2')
         a_len = html_form_to_xml.addWord('', '', '', word_type='Others')
-        self.assertEqual(a_len, 1)
+        self.assertEqual(a_len, 'A2')

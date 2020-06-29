@@ -27,4 +27,13 @@ Required field: `Stichwort` and `explanation_1`;
 Suggested field: `category`, i.e. part of speech like **Substantiv**.
 For the complete list of `category`, see `frontend/Wort/AdjModel.dtd`.
 
+Optional field: `wordAddr`, the saved file, if `wordAddr` is not provided,
+the file name is computed from `category` and the number of current words.
+### Frontend
+url endpoint: `/Word_edit/create_new_word`
+
+method: GET
+
+This frontend can create new words of Noun, Verben and Adjectiv for german language. Indeed it has limitations.
+
 Returned: HTTP Code and HTTP string. If the code is 200, the corresponding xml is created or updated; otherwise there is some failure. The error message can be checked from the returned string.

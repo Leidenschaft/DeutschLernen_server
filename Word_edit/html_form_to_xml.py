@@ -10,7 +10,7 @@ import re
 def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     """
     add a new word to Wordlist_11.xml if isAdded is true,
-    otherwise return the length of current category.
+    otherwise return the address string of the next word of current category.
     """
     path = settings.STATICFILES_DIRS[0]
     f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'r', encoding='utf-8')
@@ -24,22 +24,28 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
         currentLen = len(soup.find_all("word", address=re.compile("V.*")))
     else:
         currentLen = len(soup.find_all("word", address=re.compile("A.*")))
+    potential_address = str(currentLen + 1)
+    if word_type == 'Verben':
+        potential_address = 'V' + potential_address
+    elif word_type != 'Substantiv':
+        potential_address = 'A' + potential_address
+
     if isAdded:
         if word_type == 'Substantiv':
-            append_str = '<Word address="' + str(currentLen + 1) +\
+            append_str = '<Word address="' + potential_address +\
                 '.xml" gender="' + gender + '" chinese="' + chinese + '">' + word + '</Word>'
         elif word_type == 'Verben':
-            append_str = '<Word address="V' + str(currentLen + 1) +\
+            append_str = '<Word address="' + potential_address +\
                 '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
         else:
-            append_str = '<Word address="A' + str(currentLen + 1) +\
+            append_str = '<Word address="' + potential_address +\
                 '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
         xml = xml[0:(len(xml)-11)] + append_str + '</Wordlist>'
         f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'w', encoding='utf-8')
         f.write(xml)
         f.close()
         return
-    return currentLen
+    return potential_address
 
 def geturl(word):
     path=settings.STATICFILES_DIRS[0]
@@ -62,6 +68,9 @@ def geturl(word):
     f.close()
     return ("https://de.wikipedia.org/wiki/" + word, 1)
 
+def get_new_address(category):
+    return '/Wort/' + addWord('', '', '', word_type=category) + '.xml'
+
 def savedit(entry):
     #t=datetime.now()
     #s=t.strftime("%Y%m%d%H%M%S")
@@ -79,9 +88,11 @@ def savedit(entry):
     drvlist = entry['drvlist']
     collist = entry['collist']
     wordAddr = entry['wordAddr']
+    if wordAddr == 'None':
+        wordAddr = get_new_address(entry['category'])
     is_created=entry['is_created']
     if(is_created and explist and explist[0]):
-        addWord(wordform, genus, explist[0][0], True)
+        addWord(wordform, genus, explist[0][0], True, word_type=entry['category'])
 
     s = '''<Entry category="%s">\n''' % entry['category']
     s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
@@ -177,7 +188,7 @@ def parsegen(rq):
     reqsheet['anteil'] = rq.get('Anteil', None)
     reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated')
-    reqsheet['wordAddr'] = rq.get('wordAddr', '$7')
+    reqsheet['wordAddr'] = rq.get('wordAddr', 'None')
     if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'

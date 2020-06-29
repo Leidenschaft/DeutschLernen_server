@@ -17,7 +17,7 @@ def create_response(request):
         return HttpResponse('All right, click <a href="http://'+request.get_host()+request.get_full_path()+'">create another</a>')
     else:
         # GET Method here
-        context['wordAddrchoice'] = '/Wort/' + str(addWord('', '', '') + 1) + '.xml'
+        context['wordAddrchoice'] = 'None'
         context['isCreated'] = 'True'
     template = loader.get_template('Word_edit/editing_interface.html')
     return HttpResponse(template.render(context))
