@@ -82,11 +82,8 @@ def savedit(entry):
     is_created=entry['is_created']
     if(is_created and explist and explist[0]):
         addWord(wordform, genus, explist[0][0], True)
-    #filename=wordform+"_"+username+"_"+s+".xml"
-    #indexfile=codecs.open(path+"edit_record.txt",'a','utf-8')
-    #indexfile.write(filename+",")
-    #indexfile.close()
-    s='''<Entry category="Substantiv">\n'''
+
+    s = '''<Entry category="%s">\n''' % entry['category']
     s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
     if unittype is not None:
         s = s + '''<Einheit>''' + unittype + '''</Einheit>\n'''
@@ -150,9 +147,19 @@ def savedit(entry):
     path = settings.STATICFILES_DIRS[0]   #possible some entry is not parsed!
     f = open(path + wordAddr, 'wb')
     #if is Substantiv
-    s_pre = '<?xml version="1.0" encoding="utf-8" standalone="no"?>'
-    s_pre += '<!DOCTYPE Entry SYSTEM "NounModel.dtd">'
-    s_pre += '<?xml-stylesheet type="text/xsl" href="NounRenderTemplate.xslt"?>'
+    s_pre = '<?xml version="1.0" encoding="utf-8" standalone="no"?>\n'
+    if entry["category"] == 'Substantiv':
+        template_name = 'Noun'
+        stylesheet_name = 'Noun'
+    elif entry["category"] == 'Verben':
+        template_name = 'Verben'
+        stylesheet_name = 'Verb'
+    else:
+        template_name = 'Adj'
+        stylesheet_name = 'Adj'
+
+    s_pre += '<!DOCTYPE Entry SYSTEM "%sModel.dtd">\n' % template_name
+    s_pre += '<?xml-stylesheet type="text/xsl" href="%sRenderTemplate.xslt"?>\n' % stylesheet_name
     s = s_pre + s
     f.write(s.encode('utf-8'))
     f.close()
@@ -161,6 +168,7 @@ def savedit(entry):
 def parsegen(rq):
     err = 0
     reqsheet = {}
+    reqsheet['category'] = rq.get('category',  'Substantiv')
     reqsheet['wordform'] = rq.get('Stichwort',  None)
     reqsheet['genus'] = rq.get('Genus', None)
     reqsheet['plural'] = rq.get('Pluralform', None)

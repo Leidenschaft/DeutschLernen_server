@@ -44,6 +44,18 @@ class WordEditTest(TestCase):
         self.assertTrue(os.path.exists('frontend/Wort/233.xml'))
         os.remove('frontend/Wort/233.xml')
 
+    def test_post_form_verb(self):
+        data = {'Stichwort' : 'haben',
+                        'category' : 'Verben',
+                        'isCreated' : '',
+                        'wordAddr' :  '/Wort/V233.xml',
+                        'explanation_1': 'have'
+                }
+        response = self.client.post('/Word_edit/create_new_word', data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(os.path.exists('frontend/Wort/V233.xml'))
+        os.remove('frontend/Wort/V233.xml')
+
 class UtilityTest(TestCase):
     def test_function_addWord(self):
         noun_len = html_form_to_xml.addWord('', '', '', word_type='Substantiv')
