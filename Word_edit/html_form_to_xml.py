@@ -7,7 +7,7 @@ import code
 from DeutschLernen import settings
 import re
 
-def addWord(word, gender, chinese, isAdded=False):
+def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     """
     add a new word to Wordlist_11.xml if isAdded is true,
     otherwise return the length of current category.
@@ -18,16 +18,28 @@ def addWord(word, gender, chinese, isAdded=False):
     xml[len(xml)-len('</Wordlist>'):len(xml)]
     f.close()
     soup = BeautifulSoup(xml, "lxml")
-    currentNounLen = len(soup.find_all("word",gender=re.compile(".*")))
+    if word_type == 'Substantiv':
+        currentLen = len(soup.find_all("word", gender=re.compile(".*")))
+    elif word_type == 'Verben':
+        currentLen = len(soup.find_all("word", address=re.compile("V.*")))
+    else:
+        currentLen = len(soup.find_all("word", address=re.compile("A.*")))
     if isAdded:
-        append_str = '<Word address="' + str(currentNounLen+1) +\
-            '.xml" gender="' + gender + '" chinese="' + chinese + '">'+word+'</Word>'
+        if word_type == 'Substantiv':
+            append_str = '<Word address="' + str(currentLen + 1) +\
+                '.xml" gender="' + gender + '" chinese="' + chinese + '">' + word + '</Word>'
+        elif word_type == 'Verben':
+            append_str = '<Word address="V' + str(currentLen + 1) +\
+                '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
+        else:
+            append_str = '<Word address="A' + str(currentLen + 1) +\
+                '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
         xml = xml[0:(len(xml)-11)] + append_str + '</Wordlist>'
         f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'w', encoding='utf-8')
         f.write(xml)
         f.close()
         return
-    return currentNounLen
+    return currentLen
 
 def geturl(word):
     path=settings.STATICFILES_DIRS[0]
@@ -45,7 +57,7 @@ def geturl(word):
             break
         if (node.string==word):
             find=True
-    if (find):    
+    if (find):
         return (node.attrs['address'],0)
     f.close()
     return ("https://de.wikipedia.org/wiki/" + word, 1)
@@ -69,7 +81,7 @@ def savedit(entry):
     wordAddr = entry['wordAddr']
     is_created=entry['is_created']
     if(is_created and explist and explist[0]):
-        addWord(wordform,genus,explist[0][0],True)
+        addWord(wordform, genus, explist[0][0], True)
     #filename=wordform+"_"+username+"_"+s+".xml"
     #indexfile=codecs.open(path+"edit_record.txt",'a','utf-8')
     #indexfile.write(filename+",")

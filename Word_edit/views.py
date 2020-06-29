@@ -15,7 +15,7 @@ def create_response(request):
             if err != 0:
                 return HttpResponseBadRequest(err_str)
             savedit(reqsheet)
-        return HttpResponse('All right,click<a href="http://'+request.get_host()+request.get_full_path()+'">create another</a>')
+        return HttpResponse('All right, click <a href="http://'+request.get_host()+request.get_full_path()+'">create another</a>')
     else:
         # GET Method here
         context['wordAddrchoice'] = '/Wort/' + str(addWord('', '', '') + 1) + '.xml'
