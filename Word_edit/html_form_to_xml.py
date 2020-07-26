@@ -1,10 +1,9 @@
-from datetime import *
-import time
-from bs4 import BeautifulSoup
 import os
-import code
-from DeutschLernen import settings
 import re
+
+from bs4 import BeautifulSoup
+
+from DeutschLernen import settings
 
 def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     """
