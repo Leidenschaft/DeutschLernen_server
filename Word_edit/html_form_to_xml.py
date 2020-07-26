@@ -2,7 +2,6 @@ from datetime import *
 import time
 from bs4 import BeautifulSoup
 import os
-import codecs
 import code
 from DeutschLernen import settings
 import re
@@ -13,13 +12,11 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     otherwise return the address string of the next word of current category.
     """
     path = settings.STATICFILES_DIRS[0]
-    f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'r', encoding='utf-8')
+    f = open(os.path.join(path, "Wort", "wordlist.xml"))
     xml = f.read()
-    xml[len(xml)-len('</Wordlist>'):len(xml)]
-    f.close()
     soup = BeautifulSoup(xml, "lxml")
     if word_type == 'Substantiv':
-        currentLen = len(soup.find_all("word", gender=re.compile(".*")))
+        currentLen = len(soup.find_all("word", address=re.compile("[0-9]+.xml")))
     elif word_type == 'Verben':
         currentLen = len(soup.find_all("word", address=re.compile("V.*")))
     else:
@@ -41,7 +38,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
             append_str = '<Word address="' + potential_address +\
                 '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
         xml = xml[0:(len(xml)-11)] + append_str + '</Wordlist>'
-        f = codecs.open(os.path.join(path, "Wort", "wordlist.xml"), 'w', encoding='utf-8')
+        f = open(os.path.join(path, "Wort", "wordlist.xml"), 'w')
         f.write(xml)
         f.close()
         return
@@ -49,7 +46,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
 
 def geturl(word):
     path=settings.STATICFILES_DIRS[0]
-    f=codecs.open(os.path.join(path, "Wordlist_11.xml"), 'r', encoding='utf-8')
+    f = open(os.path.join(path, "Wordlist_11.xml"))
     xml=f.read()
     soup=BeautifulSoup(xml, "lxml")
     node=soup.word
