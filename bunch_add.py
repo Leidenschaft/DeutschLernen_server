@@ -12,7 +12,7 @@ def add_word_using_api(index, word):
 
     data = {'Stichwort' : parts[0],
             'category' : 'Substantiv',
-            'isCreated' : '',
+            'isCreated' : 'True',
             'wordAddr' :  '/Wort/%d.xml' % index,
             'explanation_1': parts[0]
             }
