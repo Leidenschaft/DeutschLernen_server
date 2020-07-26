@@ -165,7 +165,7 @@ def savedit(entry):
     path = settings.STATICFILES_DIRS[0]   #possible some entry is not parsed!
     f = open(path + wordAddr, 'wb')
     #if is Substantiv
-    s_pre = '<?xml version="1.0" encoding="utf-8" standalone="no"?>\n'
+    s_pre = xml_header
     if entry["category"] == 'Substantiv':
         template_name = 'Noun'
         stylesheet_name = 'Noun'
@@ -193,7 +193,11 @@ def parsegen(rq):
     reqsheet['plural'] = rq.get('Pluralform', None)
     reqsheet['genitiv'] = rq.get('GenitivSingular', None)
     reqsheet['unittype'] = rq.get('unittype', None)
+    if reqsheet['unittype'] == 'None':
+        reqsheet['unittype'] = None
     reqsheet['anteil'] = rq.get('Anteil', None)
+    if reqsheet['anteil'] == 'None':
+        reqsheet['anteil'] = None
     reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated', False)
     reqsheet['wordAddr'] = rq.get('wordAddr', 'None')

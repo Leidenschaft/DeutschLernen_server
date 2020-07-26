@@ -80,6 +80,7 @@
          <input id="GenitivSingular" list="GenitivSingular_Prompt" value="请在此输入第二格" name="GenitivSingular">
          <datalist id="GenitivSingular_Prompt"></datalist>
          </div>
+         <input style="display:none;" value="" name="Ausspache" id="Ausspache">
 			</div>
          <div></fieldset><fieldset><legend>
          <span>选填：</span><button type="button" id="testFocus">Collapse</button></legend>
@@ -87,9 +88,10 @@
         <!--the default is expand,use cookie to save the default setting-->
         <label for="unittype">单元:</label>
         <select id="Einheit" name="unittype">
+        <option value="None" selected="">None</option>
         <option value="1"> Eins </option>
         <option value="2"> Zwei </option>
-        <option value="3" selected=""> Drei </option>
+        <option value="3"> Drei </option>
         <option value="4"> Vier </option>
         <option value="5"> Fünf </option>
         <option value="6"> Sechs </option>
@@ -101,8 +103,9 @@
 
         <label for="Anteil">部分:</label>
         <select id="Anteil" name="Anteil">
+        <option value="None" selected="">None</option>
         <option value="1">Einfürung</option>
-        <option value="2" selected="">Text</option>
+        <option value="2">Text</option>
         <option value="3">Übungen</option>
         <option value="4">Intentionen</option>
         <option value="5">Hörverstehen</option>
