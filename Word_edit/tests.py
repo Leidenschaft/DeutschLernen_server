@@ -1,5 +1,6 @@
 from django.test import TestCase
 from Word_edit import html_form_to_xml
+from lxml import etree
 import os
 
 class WordEditTest(TestCase):
@@ -69,6 +70,22 @@ class WordEditTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/A233.xml'))
         os.remove('frontend/Wort/A233.xml')
+
+    def test_add_word_pronunciation(self):
+        data = {'Stichwort' : '夕方',
+                'category' : 'Substantiv',
+                'isCreated' : '',
+                'Ausspache' : 'ゆうがた',
+                'wordAddr' :  '/Wort/233.xml',
+                'explanation_1': '夕方'
+                }
+        response = self.client.post('/Word_edit/create_new_word', data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(os.path.exists('frontend/Wort/233.xml'))
+        with open('frontend/Wort/233.xml') as f:
+            root = etree.fromstring(f.read().encode('utf-8'))
+            self.assertFalse(root.find('Ausspache') is None)
+        os.remove('frontend/Wort/233.xml')
 
 class UtilityTest(TestCase):
     def test_function_addWord(self):
