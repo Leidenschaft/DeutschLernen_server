@@ -16,7 +16,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     xml = f.read()
     soup = BeautifulSoup(xml, "lxml")
     if word_type == 'Substantiv':
-        currentLen = len(soup.find_all("word", address=re.compile("[0-9]+.xml")))
+        currentLen = len(soup.find_all("word", address=re.compile("^[0-9]+.xml")))
     elif word_type == 'Verben':
         currentLen = len(soup.find_all("word", address=re.compile("V.*")))
     else:
