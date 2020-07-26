@@ -93,7 +93,7 @@ def savedit(entry):
     drvlist = entry['drvlist']
     collist = entry['collist']
     wordAddr = entry['wordAddr']
-    if wordAddr == 'None':
+    if wordAddr is None:
         wordAddr = get_new_address(entry['category'])
     is_created=entry['is_created']
     if(is_created and explist and explist[0]):
@@ -190,8 +190,14 @@ def parsegen(rq):
     reqsheet['pronunciation'] = rq.get('Ausspache', None)
     reqsheet['wordform'] = rq.get('Stichwort',  None)
     reqsheet['genus'] = rq.get('Genus', None)
+    if reqsheet['genus'] == '':
+        reqsheet['genus'] = None
     reqsheet['plural'] = rq.get('Pluralform', None)
+    if reqsheet['plural'] == '':
+        reqsheet['plural'] = None
     reqsheet['genitiv'] = rq.get('GenitivSingular', None)
+    if reqsheet['genitiv'] == '':
+        reqsheet['genitiv'] = None
     reqsheet['unittype'] = rq.get('unittype', None)
     if reqsheet['unittype'] == 'None':
         reqsheet['unittype'] = None
@@ -200,7 +206,7 @@ def parsegen(rq):
         reqsheet['anteil'] = None
     reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated', False)
-    reqsheet['wordAddr'] = rq.get('wordAddr', 'None')
+    reqsheet['wordAddr'] = rq.get('wordAddr', None)
     if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'
