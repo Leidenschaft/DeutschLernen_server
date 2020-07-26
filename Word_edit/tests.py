@@ -86,12 +86,21 @@ class WordEditTest(TestCase):
             root = etree.fromstring(f.read().encode('utf-8'))
             self.assertFalse(root.find('Ausspache') is None)
         os.remove('frontend/Wort/233.xml')
+    def test_add_word_to_list(self):
+        st = open('frontend/Wort/wordlist.xml').read()
+        html_form_to_xml.addWord('夕方', None, '夕方', True, word_type='Substantiv')
+        # check
+        with open('frontend/Wort/wordlist.xml') as f:
+            root = etree.fromstring(f.read().encode('utf-8'))
+            self.assertTrue(root[-1].text == '夕方')
+        # restore
+        open('frontend/Wort/wordlist.xml', 'w').write(st)
 
 class UtilityTest(TestCase):
     def test_function_addWord(self):
-        noun_len = html_form_to_xml.addWord('', '', '', word_type='Substantiv')
+        noun_len = html_form_to_xml.addWord('', None, '', word_type='Substantiv')
         self.assertEqual(noun_len, '2')
-        verb_len = html_form_to_xml.addWord('', '', '', word_type='Verben')
+        verb_len = html_form_to_xml.addWord('', None, '', word_type='Verben')
         self.assertEqual(verb_len, 'V2')
-        a_len = html_form_to_xml.addWord('', '', '', word_type='Others')
+        a_len = html_form_to_xml.addWord('', None, '', word_type='Others')
         self.assertEqual(a_len, 'A2')

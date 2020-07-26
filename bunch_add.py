@@ -26,7 +26,7 @@ def add_word_using_api(index, word):
 if __name__ == '__main__':
     
     # treat all words as Substantiv
-    noun_len = html_form_to_xml.addWord('', '', '', word_type='Substantiv')
+    noun_len = html_form_to_xml.addWord('', None, '', word_type='Substantiv')
     noun_len = int(noun_len)
     with open('build/word.txt') as f:
         word = f.readline()

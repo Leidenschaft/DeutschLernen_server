@@ -2,8 +2,12 @@ import os
 import re
 
 from bs4 import BeautifulSoup
+from lxml import etree
 
 from DeutschLernen import settings
+
+xml_header = '<?xml version="1.0" encoding="utf-8" standalone="yes"?>\n'
+wordlist_header = '<?xml-stylesheet type="text/xsl" href="navigation.xslt"?>\n'
 
 def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     """
@@ -27,18 +31,17 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
         potential_address = 'A' + potential_address
 
     if isAdded:
-        if word_type == 'Substantiv':
-            append_str = '<Word address="' + potential_address +\
-                '.xml" gender="' + gender + '" chinese="' + chinese + '">' + word + '</Word>'
-        elif word_type == 'Verben':
-            append_str = '<Word address="' + potential_address +\
-                '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
-        else:
-            append_str = '<Word address="' + potential_address +\
-                '.xml"' + ' chinese="' + chinese + '">' + word + '</Word>'
-        xml = xml[0:(len(xml)-11)] + append_str + '</Wordlist>'
+        root = etree.fromstring(xml.encode('utf-8'))
+        sub_element = etree.SubElement(root, 'Word')
+        sub_element.set('address', potential_address)
+        sub_element.set('chinese', chinese)
+        sub_element.text = word
+        if word_type == 'Substantiv' and gender != None:
+            sub_element.set('gender', gender)
+        xml_string = etree.tostring(root, pretty_print=True, encoding='utf-8').decode('utf-8')
         f = open(os.path.join(path, "Wort", "wordlist.xml"), 'w')
-        f.write(xml)
+        f.write(xml_header + wordlist_header)
+        f.write(xml_string)
         f.close()
         return
     return potential_address
@@ -65,7 +68,7 @@ def geturl(word):
     return ("https://de.wikipedia.org/wiki/" + word, 1)
 
 def get_new_address(category):
-    return '/Wort/' + addWord('', '', '', word_type=category) + '.xml'
+    return '/Wort/' + addWord('', None, '', word_type=category) + '.xml'
 
 def savedit(entry):
     #t=datetime.now()
