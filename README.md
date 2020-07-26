@@ -9,9 +9,9 @@ Python >= 3.6 with packages listed in `requirements.txt`.
 The frontend code is organized as submodule. Use `git submodule --init update` to get the submodule contents.
 
 ## Initialize the data
-* copy all xml files in `example` to `Wort` directory
-* create `audio` directory and copy all audio files in `example` to `audio` directory
-* create `pictures` directory and copy all picture files in `example` to  `pictures` directory
+* copy all xml files in `example` to `Wort` directory: `cp frontend/example/*.xml frontend/Wort/`
+* [optional] create `audio` directory and copy all audio files in `example` to `audio` directory
+* [optional] create `pictures` directory and copy all picture files in `example` to  `pictures` directory
 * run `python3 manage.py runserver`
 
 ## API

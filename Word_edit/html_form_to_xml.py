@@ -75,6 +75,7 @@ def savedit(entry):
     #t=datetime.now()
     #s=t.strftime("%Y%m%d%H%M%S")
     wordform = entry['wordform']
+    pronunciation = entry['pronunciation']
     genus = entry['genus']
     plural = entry['plural']
     genitiv = entry['genitiv']
@@ -96,6 +97,8 @@ def savedit(entry):
 
     s = '''<Entry category="%s">\n''' % entry['category']
     s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
+    if pronunciation is not None:
+        s = s + '''<Ausspache>''' + pronunciation + '''</Ausspache>\n'''
     if unittype is not None:
         s = s + '''<Einheit>''' + unittype + '''</Einheit>\n'''
     if anteil is not None:
@@ -180,6 +183,7 @@ def parsegen(rq):
     err = 0
     reqsheet = {}
     reqsheet['category'] = rq.get('category',  'Substantiv')
+    reqsheet['pronunciation'] = rq.get('Ausspache', None)
     reqsheet['wordform'] = rq.get('Stichwort',  None)
     reqsheet['genus'] = rq.get('Genus', None)
     reqsheet['plural'] = rq.get('Pluralform', None)

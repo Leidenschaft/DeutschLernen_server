@@ -7,17 +7,18 @@ class WordEditTest(TestCase):
         response = self.client.get('/Word_edit/create_new_word')
         self.assertEqual(response.status_code, 200)
     def test_post_form(self):
-        data = {'Stichwort' : 'Abschlussarbeit',
-                        'category' : 'Substantiv',
-                        'Genus' :  'die',
-                        'unittype'  :  '3',
-                        'Anteil' : '1',
-                        'isCreated' : '',
-                        'wordAddr' :  '/Wort/233.xml',
-                        'explanation_1': 'thesis',
-                        'translation_1_1': 'He is writing his thesis',
-                        'original_1_1': 'Er schreibt gerade an seiner Abschlussarbeit.'
-                        }
+        data = {
+                'Stichwort' : 'Abschlussarbeit',
+                'category' : 'Substantiv',
+                'Genus' :  'die',
+                'unittype'  :  '3',
+                'Anteil' : '1',
+                'isCreated' : '',
+                'wordAddr' :  '/Wort/233.xml',
+                'explanation_1': 'thesis',
+                'translation_1_1': 'He is writing his thesis',
+                'original_1_1': 'Er schreibt gerade an seiner Abschlussarbeit.'
+               }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/233.xml'))
@@ -34,10 +35,10 @@ class WordEditTest(TestCase):
 
     def test_post_form_minimal(self):
         data = {'Stichwort' : 'Apfel',
-                        'category' : 'Substantiv',
-                        'isCreated' : '',
-                        'wordAddr' :  '/Wort/233.xml',
-                        'explanation_1': 'apple'
+                'category' : 'Substantiv',
+                'isCreated' : '',
+                'wordAddr' :  '/Wort/233.xml',
+                'explanation_1': 'apple'
                 }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
@@ -46,23 +47,24 @@ class WordEditTest(TestCase):
 
     def test_post_form_verb(self):
         data = {'Stichwort' : 'haben',
-                        'category' : 'Verben',
-                        'isCreated' : '',
-                        'wordAddr' :  '/Wort/V233.xml',
-                        'explanation_1': 'have'
-                }
+                'category' : 'Verben',
+                'isCreated' : '',
+                'wordAddr' :  '/Wort/V233.xml',
+                'explanation_1': 'have'
+            }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/V233.xml'))
         os.remove('frontend/Wort/V233.xml')
 
     def test_post_form_adj(self):
-        data = {'Stichwort' : 'gesund',
-                        'category' : 'Adjektiv',
-                        'isCreated' : '',
-                        'wordAddr' :  '/Wort/A233.xml',
-                        'explanation_1': 'have'
-                }
+        data = {
+                'Stichwort' : 'gesund',
+                'category' : 'Adjektiv',
+                'isCreated' : '',
+                'wordAddr' :  '/Wort/A233.xml',
+                'explanation_1': 'have'
+               }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/A233.xml'))
