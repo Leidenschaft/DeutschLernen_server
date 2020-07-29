@@ -163,7 +163,7 @@ def savedit(entry):
 
     s=s+'''</Entry>\n'''
     path = settings.STATICFILES_DIRS[0]   #possible some entry is not parsed!
-    f = open(path + wordAddr, 'wb')
+    f = open(path + wordAddr)
     #if is Substantiv
     s_pre = xml_header
     if entry["category"] == 'Substantiv':
@@ -179,7 +179,7 @@ def savedit(entry):
     s_pre += '<!DOCTYPE Entry SYSTEM "%sModel.dtd">\n' % template_name
     s_pre += '<?xml-stylesheet type="text/xsl" href="%sRenderTemplate.xslt"?>\n' % stylesheet_name
     s = s_pre + s
-    f.write(s.encode('utf-8'))
+    f.write(s)
     f.close()
     return s
 
@@ -207,6 +207,8 @@ def parsegen(rq):
     reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated', False)
     reqsheet['wordAddr'] = rq.get('wordAddr', None)
+    if reqsheet['wordAddr'] == 'None':
+        reqsheet['wordAddr'] = None
     if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'
