@@ -163,7 +163,7 @@ def savedit(entry):
 
     s=s+'''</Entry>\n'''
     path = settings.STATICFILES_DIRS[0]   #possible some entry is not parsed!
-    f = open(path + wordAddr)
+    f = open(path + wordAddr, 'w')
     #if is Substantiv
     s_pre = xml_header
     if entry["category"] == 'Substantiv':
