@@ -1,3 +1,5 @@
+dist
+Word_edit.egg-info
 build
 .DS_Store
 frontend/*
