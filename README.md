@@ -8,6 +8,11 @@ This is the server side code of the project. Complete description of the project
 Python >= 3.6 with packages listed in `requirements.txt`.
 The frontend code is organized as submodule. Use `git submodule --init update` to get the submodule contents.
 
+## Install
+* (settings.py) Add `Word_edit` to installed app and add the absolute path of frontend code to the first of `settings.STATICFILES_DIRS`.
+* (urls.py) Add `Word_edit.urls`.
+
+# Development
 ## Initialize the data
 * copy all xml files in `example` to `Wort` directory: `cp frontend/example/*.xml frontend/Wort/`
 * [optional] create `audio` directory and copy all audio files in `example` to `audio` directory

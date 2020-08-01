@@ -1,7 +1,8 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 setup(
     name="Word_edit",
     version="0.1",
+    packages=find_packages(),
     author="zhaofeng-shu33",
     description="backend for xinyu",
     url="https://github.com/zhaofeng-shu33/DeutschLernen_server",
