@@ -53,7 +53,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
 
 def geturl(word):
     path=settings.STATICFILES_DIRS[0]
-    f = open(os.path.join(path, "Wordlist_11.xml"))
+    f = open(os.path.join(path, 'Wort', "wordlist.xml"))
     xml=f.read()
     soup=BeautifulSoup(xml, "lxml")
     node=soup.word
@@ -163,7 +163,7 @@ def savedit(entry):
 
     s=s+'''</Entry>\n'''
     path = settings.STATICFILES_DIRS[0]   #possible some entry is not parsed!
-    f = open(path + wordAddr, 'w')
+    f = open(os.path.join(path, wordAddr), 'w')
     #if is Substantiv
     s_pre = xml_header
     if entry["category"] == 'Substantiv':
