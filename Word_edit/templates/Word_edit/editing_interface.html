@@ -44,6 +44,7 @@
     </head>
     <body>
      <form method="post" action="create_new_word">
+        {% csrf_token %}
         <div>
             <div>
            <!--词条基本信息 例句 相关词汇-->
