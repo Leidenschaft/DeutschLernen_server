@@ -20,4 +20,4 @@ def create_response(request):
         context['wordAddrchoice'] = 'None'
         context['isCreated'] = 'True'
     template = loader.get_template('Word_edit/editing_interface.html')
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(context, request))
