@@ -15,7 +15,7 @@ class WordEditTest(TestCase):
                 'unittype'  :  '3',
                 'Anteil' : '1',
                 'isCreated' : '',
-                'wordAddr' :  '/Wort/233.xml',
+                'wordAddr' :  '/233.xml',
                 'explanation_1': 'thesis',
                 'translation_1_1': 'He is writing his thesis',
                 'original_1_1': 'Er schreibt gerade an seiner Abschlussarbeit.'
@@ -38,7 +38,7 @@ class WordEditTest(TestCase):
         data = {'Stichwort' : 'Apfel',
                 'category' : 'Substantiv',
                 'isCreated' : '',
-                'wordAddr' :  '/Wort/233.xml',
+                'wordAddr' :  '/233.xml',
                 'explanation_1': 'apple'
                 }
         response = self.client.post('/Word_edit/create_new_word', data)
@@ -50,7 +50,7 @@ class WordEditTest(TestCase):
         data = {'Stichwort' : 'haben',
                 'category' : 'Verben',
                 'isCreated' : '',
-                'wordAddr' :  '/Wort/V233.xml',
+                'wordAddr' :  '/V233.xml',
                 'explanation_1': 'have'
             }
         response = self.client.post('/Word_edit/create_new_word', data)
@@ -63,7 +63,7 @@ class WordEditTest(TestCase):
                 'Stichwort' : 'gesund',
                 'category' : 'Adjektiv',
                 'isCreated' : '',
-                'wordAddr' :  '/Wort/A233.xml',
+                'wordAddr' :  '/A233.xml',
                 'explanation_1': 'have'
                }
         response = self.client.post('/Word_edit/create_new_word', data)
@@ -76,7 +76,7 @@ class WordEditTest(TestCase):
                 'category' : 'Substantiv',
                 'isCreated' : '',
                 'Ausspache' : 'ゆうがた',
-                'wordAddr' :  '/Wort/233.xml',
+                'wordAddr' :  '/233.xml',
                 'explanation_1': '夕方'
                 }
         response = self.client.post('/Word_edit/create_new_word', data)

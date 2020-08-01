@@ -15,7 +15,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     otherwise return the address string of the next word of current category.
     """
     path = settings.STATICFILES_DIRS[0]
-    f = open(os.path.join(path, "Wort", "wordlist.xml"))
+    f = open(os.path.join(path, "wordlist.xml"))
     xml = f.read()
     soup = BeautifulSoup(xml, "lxml")
     if word_type == 'Substantiv':
@@ -44,7 +44,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
         else:
             sub_element.set('address', 'A' + potential_address + '.xml')
         xml_string = etree.tostring(root, pretty_print=True, encoding='utf-8').decode('utf-8')
-        f = open(os.path.join(path, "Wort", "wordlist.xml"), 'w')
+        f = open(os.path.join(path, "wordlist.xml"), 'w')
         f.write(xml_header + wordlist_header)
         f.write(xml_string)
         f.close()
@@ -53,7 +53,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
 
 def geturl(word):
     path=settings.STATICFILES_DIRS[0]
-    f = open(os.path.join(path, 'Wort', "wordlist.xml"))
+    f = open(os.path.join(path, "wordlist.xml"))
     xml=f.read()
     soup=BeautifulSoup(xml, "lxml")
     node=soup.word
@@ -209,6 +209,8 @@ def parsegen(rq):
     reqsheet['wordAddr'] = rq.get('wordAddr', None)
     if reqsheet['wordAddr'] == 'None':
         reqsheet['wordAddr'] = None
+    elif type(reqsheet['wordAddr']) is str:
+        reqsheet['wordAddr'] = reqsheet['wordAddr'].lstrip('/Wort')
     if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'
