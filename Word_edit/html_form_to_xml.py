@@ -210,7 +210,7 @@ def parsegen(rq):
     if reqsheet['wordAddr'] == 'None':
         reqsheet['wordAddr'] = None
     elif type(reqsheet['wordAddr']) is str:
-        reqsheet['wordAddr'] = reqsheet['wordAddr'].lstrip('/Wort')
+        reqsheet['wordAddr'] = reqsheet['wordAddr'].lstrip('/')
     if reqsheet['wordform'] is None:
         err = 1
         err_str = 'empty wordform'
