@@ -15,7 +15,8 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     otherwise return the address string of the next word of current category.
     """
     path = settings.STATICFILES_DIRS[0]
-    f = open(os.path.join(path, "wordlist.xml"))
+    locale = settings.LOCALE
+    f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"))
     xml = f.read()
     soup = BeautifulSoup(xml, "lxml")
     if word_type == 'Substantiv':
@@ -44,7 +45,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
         else:
             sub_element.set('address', 'A' + potential_address + '.xml')
         xml_string = etree.tostring(root, pretty_print=True, encoding='utf-8').decode('utf-8')
-        f = open(os.path.join(path, "wordlist.xml"), 'w')
+        f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"), 'w')
         f.write(xml_header + wordlist_header)
         f.write(xml_string)
         f.close()
@@ -52,8 +53,9 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     return potential_address
 
 def geturl(word):
-    path=settings.STATICFILES_DIRS[0]
-    f = open(os.path.join(path, "wordlist.xml"))
+    path = settings.STATICFILES_DIRS[0]
+    locale = settings.LOCALE
+    f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"))
     xml=f.read()
     soup=BeautifulSoup(xml, "lxml")
     node=soup.word
@@ -73,7 +75,7 @@ def geturl(word):
     return ("https://de.wikipedia.org/wiki/" + word, 1)
 
 def get_new_address(category):
-    return '/Wort/' + addWord('', None, '', word_type=category) + '.xml'
+    return 'Wort/' + settings.LOCALE + '/' + addWord('', None, '', word_type=category) + '.xml'
 
 def savedit(entry):
     #t=datetime.now()
