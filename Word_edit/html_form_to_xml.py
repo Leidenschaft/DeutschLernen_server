@@ -41,9 +41,9 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
             if gender != None:
                 sub_element.set('gender', gender)
         elif word_type == 'Verben':
-            sub_element.set('address', 'V' + potential_address + '.xml')
+            sub_element.set('address', potential_address + '.xml')
         else:
-            sub_element.set('address', 'A' + potential_address + '.xml')
+            sub_element.set('address', potential_address + '.xml')
         xml_string = etree.tostring(root, pretty_print=True, encoding='utf-8').decode('utf-8')
         f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"), 'w')
         f.write(xml_header + wordlist_header)
