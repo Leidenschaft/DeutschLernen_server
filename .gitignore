@@ -6,3 +6,4 @@ frontend/*
 db.sqlite3
 user
 **/__pycache__
+custom_settings.py

@@ -71,17 +71,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'DeutschLernen.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -121,4 +110,7 @@ USE_TZ = True
 STATIC_ROOT='./static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontend')]
-LOCALE = 'ja'
+try:
+    from .custom_settings import LOCALE
+except ImportError:
+    LOCALE = 'example'
