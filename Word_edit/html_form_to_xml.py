@@ -164,7 +164,7 @@ def savedit(entry):
     s=s+'''</AllgemeineErläuterungen>\n'''
 
     s=s+'''</Entry>\n'''
-    path = settings.STATICFILES_DIRS[0]   #possible some entry is not parsed!
+    path = settings.STATICFILES_DIRS[0]   # possible some entry is not parsed!
     f = open(os.path.join(path, wordAddr), 'w')
     #if is Substantiv
     s_pre = xml_header
