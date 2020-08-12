@@ -45,7 +45,7 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
         else:
             sub_element.set('address', potential_address + '.xml')
         xml_string = etree.tostring(root, pretty_print=True, encoding='utf-8').decode('utf-8')
-        f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"), 'w')
+        f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"), 'w', encoding='utf-8')
         f.write(xml_header + wordlist_header)
         f.write(xml_string)
         f.close()
@@ -165,7 +165,7 @@ def savedit(entry):
 
     s=s+'''</Entry>\n'''
     path = settings.STATICFILES_DIRS[0]   # possible some entry is not parsed!
-    f = open(os.path.join(path, wordAddr), 'w')
+    f = open(os.path.join(path, wordAddr), 'w', encoding='utf-8') # fix deployment issue, apache default to ascii
     #if is Substantiv
     s_pre = xml_header
     if entry["category"] == 'Substantiv':
