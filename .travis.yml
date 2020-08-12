@@ -7,7 +7,5 @@ addons:
   apt:
     packages:
       - libxml2
-before_script:
-  - cp frontend/example/*.xml frontend/Wort/
 script:
   - python manage.py test
