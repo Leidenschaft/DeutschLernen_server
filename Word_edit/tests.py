@@ -90,7 +90,7 @@ class WordEditTest(TestCase):
         os.remove('frontend/Wort/example/233.xml')
     def test_add_word_to_list(self):
         st = open('frontend/Wort/example/wordlist.xml').read()
-        html_form_to_xml.addWord('夕方', None, '夕方', True, word_type='Substantiv')
+        html_form_to_xml.addWord('夕方', None, '夕方', word_type='Substantiv')
         # check
         with open('frontend/Wort/example/wordlist.xml') as f:
             root = etree.fromstring(f.read().encode('utf-8'))
@@ -100,9 +100,9 @@ class WordEditTest(TestCase):
 
 class UtilityTest(TestCase):
     def test_function_addWord(self):
-        noun_len = html_form_to_xml.addWord('', None, '', word_type='Substantiv')
+        noun_len = html_form_to_xml.next_word_address(word_type='Substantiv')
         self.assertEqual(noun_len, '2')
-        verb_len = html_form_to_xml.addWord('', None, '', word_type='Verben')
+        verb_len = html_form_to_xml.next_word_address(word_type='Verben')
         self.assertEqual(verb_len, 'V2')
-        a_len = html_form_to_xml.addWord('', None, '', word_type='Others')
+        a_len = html_form_to_xml.next_word_address(word_type='Others')
         self.assertEqual(a_len, 'A2')

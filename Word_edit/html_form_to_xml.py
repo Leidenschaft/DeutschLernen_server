@@ -9,11 +9,32 @@ from DeutschLernen import settings
 xml_header = '<?xml version="1.0" encoding="utf-8" standalone="yes"?>\n'
 wordlist_header = '<?xml-stylesheet type="text/xsl" href="navigation.xslt"?>\n'
 
+def next_word_address(word_type='Substantiv'):
+    '''
+    get the address string of the next word of current category.
+    '''
+    path = settings.STATICFILES_DIRS[0]
+    locale = settings.LOCALE
+    f = open(os.path.join(path, 'Wort', locale, "wordlist.xml"))
+    xml = f.read()
+    soup = BeautifulSoup(xml, "lxml")
+    if word_type == 'Substantiv':
+        currentLen = len(soup.find_all(
+            "word", address=re.compile("^[0-9]+.xml")))
+    elif word_type == 'Verben':
+        currentLen = len(soup.find_all("word", address=re.compile("V.*")))
+    else:
+        currentLen = len(soup.find_all("word", address=re.compile("A.*")))
+    potential_address = str(currentLen + 1)
+    if word_type == 'Verben':
+        potential_address = 'V' + potential_address
+    elif word_type != 'Substantiv':
+        potential_address = 'A' + potential_address
+    return potential_address
 
-def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
+def addWord(word, gender, chinese, word_type='Substantiv'):
     """
-    add a new word to Wordlist_11.xml if isAdded is true,
-    otherwise return the address string of the next word of current category.
+    add a new word to wordlist.xml if isAdded is true,
     """
     path = settings.STATICFILES_DIRS[0]
     locale = settings.LOCALE
@@ -33,28 +54,25 @@ def addWord(word, gender, chinese, isAdded=False, word_type='Substantiv'):
     elif word_type != 'Substantiv':
         potential_address = 'A' + potential_address
 
-    if isAdded:
-        root = etree.fromstring(xml.encode('utf-8'))
-        sub_element = etree.SubElement(root, 'Word')
+    root = etree.fromstring(xml.encode('utf-8'))
+    sub_element = etree.SubElement(root, 'Word')
+    sub_element.set('address', potential_address + '.xml')
+    sub_element.set('chinese', chinese)
+    sub_element.text = word
+    if word_type == 'Substantiv':
+        if gender is not None:
+            sub_element.set('gender', gender)
+    elif word_type == 'Verben':
         sub_element.set('address', potential_address + '.xml')
-        sub_element.set('chinese', chinese)
-        sub_element.text = word
-        if word_type == 'Substantiv':
-            if gender != None:
-                sub_element.set('gender', gender)
-        elif word_type == 'Verben':
-            sub_element.set('address', potential_address + '.xml')
-        else:
-            sub_element.set('address', potential_address + '.xml')
-        xml_string = etree.tostring(
-            root, pretty_print=True, encoding='utf-8').decode('utf-8')
-        f = open(os.path.join(path, 'Wort', locale,
-                              "wordlist.xml"), 'w', encoding='utf-8')
-        f.write(xml_header + wordlist_header)
-        f.write(xml_string)
-        f.close()
-        return
-    return potential_address
+    else:
+        sub_element.set('address', potential_address + '.xml')
+    xml_string = etree.tostring(
+        root, pretty_print=True, encoding='utf-8').decode('utf-8')
+    f = open(os.path.join(path, 'Wort', locale,
+                          "wordlist.xml"), 'w', encoding='utf-8')
+    f.write(xml_header + wordlist_header)
+    f.write(xml_string)
+    f.close()
 
 
 def geturl(word):
@@ -64,13 +82,10 @@ def geturl(word):
     xml = f.read()
     soup = BeautifulSoup(xml, "lxml")
     node = soup.word
-    if node.string == word:
-        find = True
-    else:
-        find = False
+    find = bool(node.string == word)
     while not find:
         node = node.next_sibling
-        if node == None:
+        if node is None:
             break
         if node.string == word:
             find = True
@@ -81,7 +96,7 @@ def geturl(word):
 
 
 def get_new_address(category):
-    return 'Wort/' + settings.LOCALE + '/' + addWord('', None, '', word_type=category) + '.xml'
+    return 'Wort/' + settings.LOCALE + '/' + next_word_address(word_type=category) + '.xml'
 
 
 def savedit(entry):
@@ -92,7 +107,6 @@ def savedit(entry):
     genitiv = entry['genitiv']
     unittype = entry['unittype']
     anteil = entry['anteil']
-    username = entry['username']
     explist = entry['explist']
     symlist = entry['symlist']
     anmlist = entry['anmlist']
@@ -105,7 +119,7 @@ def savedit(entry):
     is_created = entry['is_created']
     if(is_created and explist and explist[0]):
         addWord(wordform, genus, explist[0][0],
-                True, word_type=entry['category'])
+                word_type=entry['category'])
 
     s = '''<Entry category="%s">\n''' % entry['category']
     s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
@@ -202,9 +216,9 @@ def savedit(entry):
 def parsegen(rq):
     err = 0
     reqsheet = {}
-    reqsheet['category'] = rq.get('category',  'Substantiv')
+    reqsheet['category'] = rq.get('category', 'Substantiv')
     reqsheet['pronunciation'] = rq.get('Ausspache', None)
-    reqsheet['wordform'] = rq.get('Stichwort',  None)
+    reqsheet['wordform'] = rq.get('Stichwort', None)
     reqsheet['genus'] = rq.get('Genus', None)
     if reqsheet['genus'] == '':
         reqsheet['genus'] = None
@@ -220,12 +234,11 @@ def parsegen(rq):
     reqsheet['anteil'] = rq.get('Anteil', None)
     if reqsheet['anteil'] == 'None':
         reqsheet['anteil'] = None
-    reqsheet['username'] = rq.get('UserName', '$6')
     reqsheet['is_created'] = rq.get('isCreated', False)
     reqsheet['wordAddr'] = rq.get('wordAddr', None)
     if reqsheet['wordAddr'] == 'None':
         reqsheet['wordAddr'] = None
-    elif type(reqsheet['wordAddr']) is str:
+    elif isinstance(reqsheet['wordAddr'], str):
         reqsheet['wordAddr'] = reqsheet['wordAddr'].lstrip('/')
     if reqsheet['wordform'] is None:
         err = 1
@@ -347,7 +360,7 @@ def parsedrv(rq):
         drvcur = rq.get('derivative_' + str(drvcount + 1), '$drv')
     if len(drvlist) == 0:
         return drvlist
-    if (drvlist[len(drvlist)-1][0][0] == "请"):
+    if drvlist[len(drvlist)-1][0][0] == "请":
         drvlist.pop()
     return drvlist
 

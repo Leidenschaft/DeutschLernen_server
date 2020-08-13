@@ -7,5 +7,7 @@ addons:
   apt:
     packages:
       - libxml2
+before_script:
+  - python -m pylint Word_edit/*.py
 script:
   - python manage.py test
