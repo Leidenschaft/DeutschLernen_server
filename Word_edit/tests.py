@@ -1,7 +1,9 @@
-from django.test import TestCase
-from Word_edit import html_form_to_xml
-from lxml import etree
 import os
+
+from django.test import TestCase
+from lxml import etree
+
+from Word_edit import html_form_to_xml
 
 class WordEditTest(TestCase):
     def test_get_form(self):
@@ -9,17 +11,17 @@ class WordEditTest(TestCase):
         self.assertEqual(response.status_code, 200)
     def test_post_form(self):
         data = {
-                'Stichwort' : 'Abschlussarbeit',
-                'category' : 'Substantiv',
-                'Genus' :  'die',
-                'unittype'  :  '3',
-                'Anteil' : '1',
-                'isCreated' : '',
-                'wordAddr' :  'Wort/example/233.xml',
-                'explanation_1': 'thesis',
-                'translation_1_1': 'He is writing his thesis',
-                'original_1_1': 'Er schreibt gerade an seiner Abschlussarbeit.'
-               }
+            'Stichwort' : 'Abschlussarbeit',
+            'category' : 'Substantiv',
+            'Genus' :  'die',
+            'unittype'  :  '3',
+            'Anteil' : '1',
+            'isCreated' : '',
+            'wordAddr' :  'Wort/example/233.xml',
+            'explanation_1': 'thesis',
+            'translation_1_1': 'He is writing his thesis',
+            'original_1_1': 'Er schreibt gerade an seiner Abschlussarbeit.'
+        }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/example/233.xml'))
@@ -52,7 +54,7 @@ class WordEditTest(TestCase):
                 'isCreated' : '',
                 'wordAddr' :  'Wort/example/V233.xml',
                 'explanation_1': 'have'
-            }
+               }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/example/V233.xml'))
@@ -60,12 +62,12 @@ class WordEditTest(TestCase):
 
     def test_post_form_adj(self):
         data = {
-                'Stichwort' : 'gesund',
-                'category' : 'Adjektiv',
-                'isCreated' : '',
-                'wordAddr' :  'Wort/example/A233.xml',
-                'explanation_1': 'have'
-               }
+            'Stichwort' : 'gesund',
+            'category' : 'Adjektiv',
+            'isCreated' : '',
+            'wordAddr' :  'Wort/example/A233.xml',
+            'explanation_1': 'have'
+        }
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(os.path.exists('frontend/Wort/example/A233.xml'))
