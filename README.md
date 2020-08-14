@@ -8,12 +8,12 @@ This is the server side code of the project. Complete description of the project
 Python >= 3.6 with packages listed in `requirements.txt`.
 The frontend code is organized as submodule. Use `git submodule --init update` to get the submodule contents.
 
-## Install
-* (settings.py) Add `Word_edit` to installed app and add the absolute path of frontend code to the first of `settings.STATICFILES_DIRS`.
-* (urls.py) Add `Word_edit.urls`.
-
 # Development
 * run `python3 manage.py runserver`
+
+## Deployment
+* (settings.py) Add `Word_edit` to installed app and add the absolute path of frontend code to the first of `settings.STATICFILES_DIRS`.
+* (urls.py) Add `Word_edit.urls`.
 
 ## API
 ### Create or Update a word
