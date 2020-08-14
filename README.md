@@ -13,10 +13,6 @@ The frontend code is organized as submodule. Use `git submodule --init update` t
 * (urls.py) Add `Word_edit.urls`.
 
 # Development
-## Initialize the data
-* copy all xml files in `example` to `Wort` directory: `cp frontend/example/*.xml frontend/Wort/`
-* [optional] create `audio` directory and copy all audio files in `example` to `audio` directory
-* [optional] create `pictures` directory and copy all picture files in `example` to  `pictures` directory
 * run `python3 manage.py runserver`
 
 ## API
@@ -32,13 +28,15 @@ Required field: `Stichwort` and `explanation_1`;
 Suggested field: `category`, i.e. part of speech like **Substantiv**.
 For the complete list of `category`, see `frontend/Wort/AdjModel.dtd`.
 
-Optional field: `wordAddr`, the saved file, if `wordAddr` is not provided,
-the file name is computed from `category` and the number of current words.
+Optional field: `wordAddr`, the saved file path, relative the the server code.
+If `wordAddr` is not provided,
+the file name is computed from `category` and the number of current words automatically.
+
 ### Frontend
 url endpoint: `/Word_edit/create_new_word`
 
 method: GET
 
-This frontend can create new words of Noun, Verben and Adjectiv for german language. Indeed it has limitations.
+This frontend can create new words of Noun, Verben and Adjectiv for selected language. Indeed it has limitations.
 
 Returned: HTTP Code and HTTP string. If the code is 200, the corresponding xml is created or updated; otherwise there is some failure. The error message can be checked from the returned string.
