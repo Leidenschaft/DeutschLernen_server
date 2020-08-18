@@ -13,7 +13,7 @@ def add_word_using_api(index, word):
     data = {'Stichwort' : parts[0],
             'category' : 'Substantiv',
             'isCreated' : 'True',
-            'wordAddr' :  '/Wort/%d.xml' % index,
+            'wordAddr' :  '/Wort/ja/%d.xml' % index,
             'explanation_1': parts[0]
             }
     if len(parts) > 1:
@@ -26,7 +26,7 @@ def add_word_using_api(index, word):
 if __name__ == '__main__':
     
     # treat all words as Substantiv
-    noun_len = html_form_to_xml.addWord('', None, '', word_type='Substantiv')
+    noun_len = html_form_to_xml.next_word_address(word_type='Substantiv')
     noun_len = int(noun_len)
     with open('build/word.txt') as f:
         word = f.readline()
