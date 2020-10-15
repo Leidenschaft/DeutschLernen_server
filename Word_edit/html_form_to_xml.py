@@ -124,7 +124,7 @@ def savedit(entry):
     s = '''<Entry category="%s">\n''' % entry['category']
     s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
     if pronunciation is not None:
-        s = s + '''<Ausspache>''' + pronunciation + '''</Ausspache>\n'''
+        s = s + '''<Aussprache>''' + pronunciation + '''</Aussprache>\n'''
     if unittype is not None:
         s = s + '''<Einheit>''' + unittype + '''</Einheit>\n'''
     if anteil is not None:
@@ -217,7 +217,7 @@ def parsegen(rq):
     err = 0
     reqsheet = {}
     reqsheet['category'] = rq.get('category', 'Substantiv')
-    reqsheet['pronunciation'] = rq.get('Ausspache', None)
+    reqsheet['pronunciation'] = rq.get('Aussprache', None)
     reqsheet['wordform'] = rq.get('Stichwort', None)
     reqsheet['genus'] = rq.get('Genus', None)
     if reqsheet['genus'] == '':

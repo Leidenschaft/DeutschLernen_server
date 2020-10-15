@@ -77,7 +77,7 @@ class WordEditTest(TestCase):
         data = {'Stichwort' : '夕方',
                 'category' : 'Substantiv',
                 'isCreated' : '',
-                'Ausspache' : 'ゆうがた',
+                'Aussprache' : 'ゆうがた',
                 'wordAddr' :  'Wort/example/233.xml',
                 'explanation_1': '夕方'
                 }
@@ -86,7 +86,7 @@ class WordEditTest(TestCase):
         self.assertTrue(os.path.exists('frontend/Wort/example/233.xml'))
         with open('frontend/Wort/example/233.xml') as f:
             root = etree.fromstring(f.read().encode('utf-8'))
-            self.assertFalse(root.find('Ausspache') is None)
+            self.assertFalse(root.find('Aussprache') is None)
         os.remove('frontend/Wort/example/233.xml')
     def test_add_word_to_list(self):
         st = open('frontend/Wort/example/wordlist.xml').read()

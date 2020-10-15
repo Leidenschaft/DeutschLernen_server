@@ -17,7 +17,7 @@ def add_word_using_api(index, word):
             'explanation_1': parts[0]
             }
     if len(parts) > 1:
-        data['Ausspache'] = parts[1].rstrip()
+        data['Aussprache'] = parts[1].rstrip()
     if len(parts) > 2:
         data['explanation_1'] = parts[2]
     response = client.post('/Word_edit/create_new_word', data)
