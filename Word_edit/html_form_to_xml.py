@@ -125,75 +125,75 @@ def savedit(entry):
         addWord(wordform, genus, explist[0][0],
                 word_type=entry['category'])
 
-    s = '''<Entry category="%s">\n''' % entry['category']
-    s = s + '''<Stichwort>''' + wordform + '''</Stichwort>\n'''
+    s = '''<Entry category="%s">''' % entry['category']
+    s = s + '''<Stichwort>''' + wordform + '''</Stichwort>'''
     if pronunciation is not None:
-        s = s + '''<Aussprache>''' + pronunciation + '''</Aussprache>\n'''
+        s = s + '''<Aussprache>''' + pronunciation + '''</Aussprache>'''
     if unittype is not None:
-        s = s + '''<Einheit>''' + unittype + '''</Einheit>\n'''
+        s = s + '''<Einheit>''' + unittype + '''</Einheit>'''
     if anteil is not None:
-        s = s + '''<Anteil>''' + anteil + '''</Anteil>\n'''
+        s = s + '''<Anteil>''' + anteil + '''</Anteil>'''
     if genus is not None:
-        s = s + '''<Genus>''' + genus + '''</Genus>\n'''
+        s = s + '''<Genus>''' + genus + '''</Genus>'''
     if plural is not None:
-        s = s + '''<Pluralform>''' + plural + '''</Pluralform>\n'''
+        s = s + '''<Pluralform>''' + plural + '''</Pluralform>'''
     if genitiv is not None:
-        s = s + '''<GenitivSingular>''' + genitiv + '''</GenitivSingular>\n'''
-    s = s + '''<zusammengesetzteWörter>\n'''
-    s = s + '''<KompositaCollection>\n'''
+        s = s + '''<GenitivSingular>''' + genitiv + '''</GenitivSingular>'''
+    s = s + '''<zusammengesetzteWörter>'''
+    s = s + '''<KompositaCollection>'''
     for com in comlist:
         if com[1] == "":
-            s = s+'''<K_>'''+com[0]+'''</K_>\n'''
+            s = s + '''<K_>''' + com[0] + '''</K_>'''
         else:
-            s = s+'''<K_ link="''' + \
-                geturl(com[1])[0]+'''">'''+com[0]+'''</K_>\n'''
-    s = s+'''</KompositaCollection>\n'''
-    s = s+'''<abgeleiteteWörter>\n'''
+            s = s + '''<K_ link="''' + \
+                geturl(com[1])[0] + '''">''' + com[0] + '''</K_>'''
+    s = s + '''</KompositaCollection>'''
+    s = s + '''<abgeleiteteWörter>'''
     for drv in drvlist:
         if drv[2] == "":
-            s = s+'''<hierzu category="''' + \
-                drv[1]+'''">'''+drv[0]+'''</hierzu>\n'''
+            s = s + '''<hierzu category="''' + \
+                drv[1] + '''">''' + drv[0] + '''</hierzu>'''
         else:
-            s = s+'''<hierzu category="''' + \
-                drv[1]+'''" link="''' + \
-                geturl(drv[2])[0]+'''">'''+drv[0]+'''</hierzu>\n'''
-    s = s+'''</abgeleiteteWörter>\n'''
-    s = s+'''</zusammengesetzteWörter>\n'''
-    s = s+'''<Synonymegruppe>\n'''
+            s = s + '''<hierzu category="''' + \
+                drv[1] + '''" link="''' + \
+                geturl(drv[2])[0] + '''">''' + drv[0] + '''</hierzu>'''
+    s = s+'''</abgeleiteteWörter>'''
+    s = s+'''</zusammengesetzteWörter>'''
+    s = s+'''<Synonymegruppe>'''
     for sym in symlist:
         if sym[1] == "":
-            s = s+'''<Sym>'''+sym[0]+'''</Sym>\n'''
+            s = s + '''<Sym>''' + sym[0] + '''</Sym>'''
         else:
-            s = s+'''<Sym link="''' + \
-                geturl(sym[1])[0]+'''">'''+sym[0]+'''</Sym>\n'''
-    s = s+'''</Synonymegruppe>\n'''
-    s = s+'''<Antonymegruppe>\n'''
+            s = s + '''<Sym link="''' + \
+                geturl(sym[1])[0] + '''">''' + sym[0] + '''</Sym>'''
+    s = s+'''</Synonymegruppe>'''
+    s = s+'''<Antonymegruppe>'''
     for anm in anmlist:
         if anm[1] == "":
-            s = s+'''<Anm>'''+anm[0]+'''</Anm>\n'''
+            s = s+'''<Anm>'''+anm[0]+'''</Anm>'''
         else:
             s = s+'''<Anm link="''' + \
-                geturl(anm[1])[0]+'''">'''+anm[0]+'''</Anm>\n'''
-    s = s+'''</Antonymegruppe>\n'''
-    s = s+'''<Kollokationen>\n'''
+                geturl(anm[1])[0]+'''">'''+anm[0]+'''</Anm>'''
+    s = s + '''</Antonymegruppe>'''
+    s = s + '''<Kollokationen>'''
     for col in collist:
-        s = s+'''<K>'''+col+'''</K>\n'''
-    s = s+'''</Kollokationen>\n'''
-    s = s+'''<AllgemeineErläuterungen>\n'''
+        s = s+'''<K>''' + col + '''</K>'''
+    s = s + '''</Kollokationen>'''
+    s = s + '''<AllgemeineErläuterungen>'''
     for exptuple in explist:
-        s = s+'''<Eintrag>\n'''
-        s = s+'''<Chinesisch>'''+exptuple[0]+'''</Chinesisch>\n'''
-        s = s+'''<BeispielSammlung>\n'''
+        s = s+'''<Eintrag>'''
+        s = s+'''<Chinesisch>''' + exptuple[0] + '''</Chinesisch>'''
+        s = s+'''<BeispielSammlung>'''
         for samptuple in exptuple[1]:
-            s = s+'''<Beispiel>\n'''
-            s = s+'''<Satz>'''+samptuple[0]+'''</Satz>\n'''
-            s = s+'''<Übersetzung>'''+samptuple[1]+'''</Übersetzung>\n'''
-            s = s+'''</Beispiel>\n'''
-        s = s+'''</BeispielSammlung>\n'''
-        s = s+'''</Eintrag>\n'''
-    s = s+'''</AllgemeineErläuterungen>\n'''
+            s = s + '''<Beispiel>'''
+            s = s + '''<Satz>''' + samptuple[0] + '''</Satz>'''
+            s = s + '''<Übersetzung>''' + samptuple[1] + '''</Übersetzung>'''
+            s = s + '''</Beispiel>'''
+        s = s + '''</BeispielSammlung>'''
+        s = s + '''</Eintrag>'''
+    s = s + '''</AllgemeineErläuterungen>'''
 
-    s = s+'''</Entry>\n'''
+    s = s + '''</Entry>'''
     path = settings.STATICFILES_DIRS[0]   # possible some entry is not parsed!
     # fix deployment issue, apache default to ascii
     f = open(os.path.join(path, wordAddr), 'w', encoding='utf-8')
