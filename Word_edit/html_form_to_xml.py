@@ -9,6 +9,10 @@ from DeutschLernen import settings
 xml_header = '<?xml version="1.0" encoding="utf-8" standalone="yes"?>\n'
 wordlist_header = '<?xml-stylesheet type="text/xsl" href="navigation.xslt"?>\n'
 
+def format_xml(xml_str):
+    root = etree.fromstring(xml_str.encode('utf-8'))
+    return etree.tostring(root, encoding='utf-8', pretty_print=True).decode('utf-8')
+
 def next_word_address(word_type='Substantiv'):
     '''
     get the address string of the next word of current category.
@@ -205,6 +209,7 @@ def savedit(entry):
         template_name = 'Adj'
         stylesheet_name = 'Adj'
 
+    s = format_xml(s)
     s_pre += '<!DOCTYPE Entry SYSTEM "%sModel.dtd">\n' % template_name
     s_pre += '<?xml-stylesheet type="text/xsl" href="%sRenderTemplate.xslt"?>\n' % stylesheet_name
     s = s_pre + s

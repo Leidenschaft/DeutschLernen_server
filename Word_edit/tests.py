@@ -31,6 +31,7 @@ class WordEditTest(TestCase):
         data = {'category': 'Substantiv'}
         response = self.client.post('/Word_edit/create_new_word', data)
         self.assertEqual(response.status_code, 400)
+
     def test_post_empty_explanation(self):
         data = {'category': 'Substantiv', 'Stichwort': 'Abschlussarbeit'}
         response = self.client.post('/Word_edit/create_new_word', data)
@@ -88,6 +89,7 @@ class WordEditTest(TestCase):
             root = etree.fromstring(f.read().encode('utf-8'))
             self.assertFalse(root.find('Aussprache') is None)
         os.remove('frontend/Wort/example/233.xml')
+
     def test_add_word_to_list(self):
         st = open('frontend/Wort/example/wordlist.xml').read()
         html_form_to_xml.addWord('夕方', None, '夕方', word_type='Substantiv')
